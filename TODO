@@ -1,0 +1,6 @@
+* server-side logging
+* uuid for each unique request
+* setting a greater number of larger cookies (specifying n and size)
+* tracking the user
+* limiting access
+* any additional input/requirements
