@@ -24,11 +24,13 @@ public class MyCookieServlet extends HttpServlet {
         final List<Cookie> cookies = getAllCookies(request);
         Cookie addedCookie = null;
         switch(mode) {
-            case KEEP:
+            case ADD:
                 addedCookie = addCookie(response);
                 break;
             case CLEAR:
                 clearCookies(request, response, cookies);
+                break;
+            case REPORT:
                 break;
             default:
                 throw new UnsupportedOperationException("should not reach here");
@@ -98,29 +100,29 @@ public class MyCookieServlet extends HttpServlet {
             query = splitQuery(queryString);
         }
         catch(UnsupportedEncodingException e) {
-            return Mode.CLEAR;
+            return Mode.REPORT;
         }
 
-        if(query.containsKey("keep")) {
-            final String keepValue = query.get("keep");
-            if("0".equals(keepValue) || "false".equalsIgnoreCase(keepValue) || "no".equals(keepValue)) {
-                return Mode.CLEAR;
+        if(query.containsKey("add")) {
+            final String addValue = query.get("add");
+            if("0".equals(addValue) || "false".equalsIgnoreCase(addValue) || "no".equals(addValue)) {
+                return Mode.REPORT;
             }
             else {
-                return Mode.KEEP;
+                return Mode.ADD;
             }
         }
 
         if(query.containsKey("clear")) {
             final String clearValue = query.get("clear");
             if("0".equals(clearValue) || "false".equalsIgnoreCase(clearValue) || "no".equals(clearValue)) {
-                return Mode.KEEP;
+                return Mode.REPORT;
             }
             else {
                 return Mode.CLEAR;
             }
         }
-        return Mode.CLEAR;
+        return Mode.REPORT;
     }
 
     private static String formatCookie(final Cookie cookie) {
