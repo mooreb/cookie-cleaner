@@ -22,9 +22,10 @@ public class MyCookieServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         final Mode mode = getMode(request);
         final List<Cookie> cookies = getAllCookies(request);
+        Cookie addedCookie = null;
         switch(mode) {
             case KEEP:
-                addCookie(response);
+                addedCookie = addCookie(response);
                 break;
             case CLEAR:
                 clearCookies(request, response, cookies);
@@ -35,6 +36,7 @@ public class MyCookieServlet extends HttpServlet {
         final PrintWriter printWriter = response.getWriter();
         printWriter.println("<pre>");
         printWriter.println("mode is " + mode);
+        if(null != addedCookie) printWriter.println("added cookie " + formatCookie(addedCookie));
         printWriter.println("input cookies: ");
         for(final Cookie cookie : cookies) {
             printWriter.println(formatCookie(cookie));
@@ -45,12 +47,13 @@ public class MyCookieServlet extends HttpServlet {
         response.flushBuffer();
     }
 
-    private void addCookie(HttpServletResponse response) {
+    private Cookie addCookie(HttpServletResponse response) {
         final long now = System.currentTimeMillis();
         final Date nowDate = new Date();
         final String nowString = nowDate.toString().replace(" ", "_");
         Cookie nowCookie = new Cookie("now-" + now, nowString);
         response.addCookie(nowCookie);
+        return nowCookie;
     }
 
     private void clearCookies(final HttpServletRequest request, final HttpServletResponse response, List<Cookie> cookies) {
