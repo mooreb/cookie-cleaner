@@ -61,7 +61,10 @@ public class MyCookieServlet extends HttpServlet {
             final Cookie removalCookie = new Cookie(cookie.getName(), "deleted");
             removalCookie.setMaxAge(0);
             removalCookie.setPath(cookie.getPath());
-            removalCookie.setDomain(cookie.getDomain());
+            final String inputDomain = cookie.getDomain();
+            if(null != inputDomain) {
+                removalCookie.setDomain(inputDomain);
+            }
             removalCookie.setSecure(cookie.getSecure());
             removalCookie.setVersion(cookie.getVersion());
             response.addCookie(removalCookie);
