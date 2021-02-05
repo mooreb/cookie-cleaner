@@ -1,0 +1,1 @@
+ rm -rf ~/external-tools/apache-tomcat-9.0.43/webapps/cookie_cleaner && mvn package && cp target/cookie_cleaner.war ~/external-tools/apache-tomcat-9.0.43/webapps/cookie_cleaner.war

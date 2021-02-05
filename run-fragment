@@ -1,0 +1,1 @@
+cd /Users/mooreb/external-tools/apache-tomcat-9.0.43/bin && sh catalina.sh run
