@@ -59,8 +59,11 @@ public class MyCookieServlet extends HttpServlet {
     private void clearCookies(final HttpServletRequest request, final HttpServletResponse response, List<Cookie> cookies) {
         for(final Cookie cookie : cookies) {
             final Cookie removalCookie = new Cookie(cookie.getName(), "deleted");
-            removalCookie.setPath(cookie.getPath());
             removalCookie.setMaxAge(0);
+            removalCookie.setPath(cookie.getPath());
+            removalCookie.setDomain(cookie.getDomain());
+            removalCookie.setSecure(cookie.getSecure());
+            removalCookie.setVersion(cookie.getVersion());
             response.addCookie(removalCookie);
         }
     }
