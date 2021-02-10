@@ -1,4 +1,3 @@
-* add "do not cache" pragmas and headers to cookie cleaner response.
 * server-side logging
 * uuid for each unique request
 * setting a greater number of larger cookies (specifying n and size)

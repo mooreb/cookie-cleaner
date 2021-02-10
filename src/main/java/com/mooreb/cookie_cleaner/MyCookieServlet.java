@@ -35,6 +35,9 @@ public class MyCookieServlet extends HttpServlet {
             default:
                 throw new UnsupportedOperationException("should not reach here");
         }
+
+        response.addHeader("Cache-Control", "no-cache");
+
         final PrintWriter printWriter = response.getWriter();
         printWriter.println("<pre>");
         printWriter.println("mode is " + mode);
