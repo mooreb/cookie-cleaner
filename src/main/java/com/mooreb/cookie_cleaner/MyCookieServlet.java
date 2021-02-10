@@ -22,6 +22,8 @@ public class MyCookieServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         final Mode mode = getMode(request);
         final List<Cookie> cookies = getAllCookies(request);
+        final int numCookies = cookies.size();
+        final long approxCookieBytes = computeApproxBytesForCookies(cookies);
         Cookie addedCookie = null;
         switch(mode) {
             case ADD:
@@ -42,10 +44,12 @@ public class MyCookieServlet extends HttpServlet {
         printWriter.println("<pre>");
         printWriter.println("mode is " + mode);
         if(null != addedCookie) printWriter.println("added cookie " + formatCookie(addedCookie));
-        printWriter.println("input cookies: ");
+        final String suffix = ((1 == numCookies) ? "" : "s");
+        printWriter.println("" + numCookies + " input cookie" + suffix + ": ");
         for(final Cookie cookie : cookies) {
             printWriter.println(formatCookie(cookie));
         }
+        printWriter.println("approx bytes: " + approxCookieBytes);
         printWriter.println("</pre>");
         printWriter.flush();
         response.setStatus(200);
@@ -140,6 +144,23 @@ public class MyCookieServlet extends HttpServlet {
         sb.append("version=").append(cookie.getVersion());
         sb.append("}");
         return sb.toString();
+    }
+
+    private long computeApproxBytesForCookies(final List<Cookie> cookies) {
+        if((null == cookies) || cookies.isEmpty()) return 0L;
+        long retval = 0L;
+        final String header = "Cookie: ";
+        retval += header.length();
+        for(final Cookie cookie : cookies) {
+            final String cookieName = cookie.getName();
+            final String cookieValue = cookie.getValue();
+            retval += cookieName.length();
+            retval += 1; // equals
+            retval += cookieValue.length();
+            retval += 1; // semicolon
+            retval += 1; // space
+        }
+        return retval;
     }
 
 }
