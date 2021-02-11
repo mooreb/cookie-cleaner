@@ -1,5 +1,6 @@
 # cookie-cleaner
-by default: report on any cookies sent to this webapp.
+
+By default: report on any cookies sent to this webapp.
 
 With query parameter:
   * add=1
@@ -7,6 +8,7 @@ With query parameter:
 add a cookie of the form:
   * name: now-{epoch}
   * value: localized "now" string
+
 
 With query parameter:
   * clear=1
