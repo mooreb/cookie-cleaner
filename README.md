@@ -13,7 +13,11 @@ add a cookie of the form:
 With query parameter:
   * clear=1
 
-send back Set-Cookie headers (of the same name/path/domain/secure/version) which effectively delete the cookie by setting the expires epoch to 0.
+For each cookie in the incoming request: send back a Set-Cookie header with the following properties:
+  * the exact same name/path/domain/secure/version as the input cookie under consideration, and
+  * expires=0 (aka 1970-01-01T00:00:00Z)
+
+This effectively deletes the cookie by relying on behavior required of the browser; Namely: the requirement to immediately evict any expired cookie.
 
 For more information please see:
   * https://en.wikipedia.org/wiki/HTTP_cookie
